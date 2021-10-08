@@ -4,9 +4,9 @@ provider "alicloud" {
 
 resource "alicloud_vpc" "main" {
   # VPC名称
-  name       = "VPC10"
+  vpc_name       = "VPC10"
   # VPC地址块
-  cidr_block = "30.1.1.0/21"
+  cidr_block = "30.1.0.0/21"
 }
 
 resource "alicloud_vswitch" "main" {
