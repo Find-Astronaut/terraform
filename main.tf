@@ -4,7 +4,7 @@ provider "alicloud" {
 
 resource "alicloud_vpc" "vpc" {
   vpc_name = "VPC10"
-  cidr_block = "30.1.0.0/12"
+  cidr_block = "30.0.0.0/12"
 }
 
 resource "alicloud_vswitch" "vsw" {
