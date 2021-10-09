@@ -8,7 +8,7 @@ resource "alicloud_vpc" "vpc" {
 }
 
 resource "alicloud_vswitch" "vsw" {
-  zone_id = "cn-shenzhen-b"
+  zone_id = "cn-guangzhou"
   cidr_block = "30.1.0.0/21"
   vpc_id = alicloud_vpc.vpc.id
 }
