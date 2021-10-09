@@ -2,20 +2,29 @@ provider "alicloud" {
   configuration_source = "terraform-provider-alicloud/examples/vpc"
 }
 
-resource "alicloud_vpc" "main" {
-  # VPC名称
-  vpc_name       = "alicloud"
-  # VPC地址块
-  cidr_block = "10.1.0.0/21"
+resource "alicloud_vpc" "vpc" {
+  vpc_name = "VPC10"
+  cidr_block = "30.1.0.0/12"
 }
 
-resource "alicloud_vswitch" "main" {
-  # VPC ID
-  vpc_id            = alicloud_vpc.main.id
-  # 交换机地址块
-  cidr_block        = "10.1.0.0/24"
-  # 可用区
-  zone_id = "cn-hangzhou-b"
-  # 资源依赖,会优先创建该依赖资源
-  depends_on = [alicloud_vpc.main]
+resource "alicloud_vswitch" "vsw" {
+  zone_id = "cn-shenzhen-b"
+  cidr_block = "30.1.0.0/21"
+  vpc_id = alicloud_vpc.vpc.id
+}
+
+resource "alicloud_security_group" "default" {
+  name = "default"
+  vpc_id = alicloud_vpc.vpc.id
+}
+
+resource "alicloud_security_group_rule" "allow_all_tcp" {
+  ip_protocol = "tcp"
+  security_group_id = alicloud_security_group.default.id
+  type = "ingress"
+  policy = "accept"
+  port_range = "1/65535"
+  priority = 1
+  cidr_ip = "0.0.0.0/0"
+  nic_type = "intranet"
 }
